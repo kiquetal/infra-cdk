@@ -1,0 +1,242 @@
+Resources:
+  vpcfortigosports52282003:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/Resource
+  vpcfortigosportssubnet1Subnet1SubnetE4FDC40A:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/24
+      VpcId:
+        Ref: vpcfortigosports52282003
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: subnet-1
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1/Subnet
+  vpcfortigosportssubnet1Subnet1RouteTable60205992:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      Tags:
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1/RouteTable
+  vpcfortigosportssubnet1Subnet1RouteTableAssociation9BEEB64C:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnet1Subnet1RouteTable60205992
+      SubnetId:
+        Ref: vpcfortigosportssubnet1Subnet1SubnetE4FDC40A
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1/RouteTableAssociation
+  vpcfortigosportssubnet1Subnet2Subnet16BDA1A1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId:
+        Ref: vpcfortigosports52282003
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: subnet-1
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2/Subnet
+  vpcfortigosportssubnet1Subnet2RouteTableE74DAA45:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      Tags:
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2/RouteTable
+  vpcfortigosportssubnet1Subnet2RouteTableAssociation142CD254:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnet1Subnet2RouteTableE74DAA45
+      SubnetId:
+        Ref: vpcfortigosportssubnet1Subnet2Subnet16BDA1A1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2/RouteTableAssociation
+  vpcfortigosportssubnet2Subnet1SubnetEE37807C:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.2.0/24
+      VpcId:
+        Ref: vpcfortigosports52282003
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: subnet-2
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet1/Subnet
+  vpcfortigosportssubnet2Subnet1RouteTableA7F2F6A8:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      Tags:
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet1/RouteTable
+  vpcfortigosportssubnet2Subnet1RouteTableAssociationD02ED51E:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnet2Subnet1RouteTableA7F2F6A8
+      SubnetId:
+        Ref: vpcfortigosportssubnet2Subnet1SubnetEE37807C
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet1/RouteTableAssociation
+  vpcfortigosportssubnet2Subnet2SubnetF610A888:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.3.0/24
+      VpcId:
+        Ref: vpcfortigosports52282003
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: subnet-2
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet2/Subnet
+  vpcfortigosportssubnet2Subnet2RouteTable76E8DE98:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      Tags:
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet2/RouteTable
+  vpcfortigosportssubnet2Subnet2RouteTableAssociation06D27E01:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnet2Subnet2RouteTable76E8DE98
+      SubnetId:
+        Ref: vpcfortigosportssubnet2Subnet2SubnetF610A888
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-2Subnet2/RouteTableAssociation
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.88.0,@aws-cdk/assets=1.111.0,@aws-cdk/aws-cloudwatch=1.111.0,@aws-cdk/aws-ec2=1.111.0,@aws-cdk/aws-events=1.111.0,@aws-cdk/aws-iam=1.111.0,@aws-cdk/aws-kms=1.111.0,@aws-cdk/aws-logs=1.111.0,@aws-cdk/aws-s3=1.111.0,@aws-cdk/aws-s3-assets=1.111.0,@aws-cdk/aws-ssm=1.111.0,@aws-cdk/cloud-assembly-schema=1.111.0,@aws-cdk/core=1.111.0,@aws-cdk/cx-api=1.111.0,@aws-cdk/region-info=1.111.0,jsii-runtime=node.js/v12.18.2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+
