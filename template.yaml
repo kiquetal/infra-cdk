@@ -1,0 +1,546 @@
+Resources:
+  vpcfortigosports52282003:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/Resource
+  vpcfortigosportssubnet1Subnet1SubnetE4FDC40A:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/24
+      VpcId:
+        Ref: vpcfortigosports52282003
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: subnet-1
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1/Subnet
+  vpcfortigosportssubnet1Subnet1RouteTable60205992:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      Tags:
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1/RouteTable
+  vpcfortigosportssubnet1Subnet1RouteTableAssociation9BEEB64C:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnet1Subnet1RouteTable60205992
+      SubnetId:
+        Ref: vpcfortigosportssubnet1Subnet1SubnetE4FDC40A
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet1/RouteTableAssociation
+  vpcfortigosportssubnet1Subnet2Subnet16BDA1A1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId:
+        Ref: vpcfortigosports52282003
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: subnet-1
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2/Subnet
+  vpcfortigosportssubnet1Subnet2RouteTableE74DAA45:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      Tags:
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2/RouteTable
+  vpcfortigosportssubnet1Subnet2RouteTableAssociation142CD254:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnet1Subnet2RouteTableE74DAA45
+      SubnetId:
+        Ref: vpcfortigosportssubnet1Subnet2Subnet16BDA1A1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-1Subnet2/RouteTableAssociation
+  vpcfortigosportssubnetpublicSubnet1Subnet5B85BEF8:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.2.0/24
+      VpcId:
+        Ref: vpcfortigosports52282003
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: subnet-public
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet1/Subnet
+  vpcfortigosportssubnetpublicSubnet1RouteTableBB6EC720:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      Tags:
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet1/RouteTable
+  vpcfortigosportssubnetpublicSubnet1RouteTableAssociationF7A43C93:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnetpublicSubnet1RouteTableBB6EC720
+      SubnetId:
+        Ref: vpcfortigosportssubnetpublicSubnet1Subnet5B85BEF8
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet1/RouteTableAssociation
+  vpcfortigosportssubnetpublicSubnet1DefaultRouteFF0842EB:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnetpublicSubnet1RouteTableBB6EC720
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: vpcfortigosportsIGWC9F2C3CB
+    DependsOn:
+      - vpcfortigosportsVPCGW3FC7CB9A
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet1/DefaultRoute
+  vpcfortigosportssubnetpublicSubnet2Subnet2A8F5A01:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.3.0/24
+      VpcId:
+        Ref: vpcfortigosports52282003
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: subnet-public
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet2/Subnet
+  vpcfortigosportssubnetpublicSubnet2RouteTable7631F508:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      Tags:
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet2/RouteTable
+  vpcfortigosportssubnetpublicSubnet2RouteTableAssociation563D78B5:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnetpublicSubnet2RouteTable7631F508
+      SubnetId:
+        Ref: vpcfortigosportssubnetpublicSubnet2Subnet2A8F5A01
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet2/RouteTableAssociation
+  vpcfortigosportssubnetpublicSubnet2DefaultRoute2A6D731D:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: vpcfortigosportssubnetpublicSubnet2RouteTable7631F508
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: vpcfortigosportsIGWC9F2C3CB
+    DependsOn:
+      - vpcfortigosportsVPCGW3FC7CB9A
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/subnet-publicSubnet2/DefaultRoute
+  vpcfortigosportsIGWC9F2C3CB:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: creator
+          Value: enrique.melgarejo@edge.com.py
+        - Key: Name
+          Value: InfraCdkStack/vpc-for-tigosports
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/IGW
+  vpcfortigosportsVPCGW3FC7CB9A:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: vpcfortigosports52282003
+      InternetGatewayId:
+        Ref: vpcfortigosportsIGWC9F2C3CB
+    Metadata:
+      aws:cdk:path: InfraCdkStack/vpc-for-tigosports/VPCGW
+  publicSecurityGroupB75ADFFE:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: InfraCdkStack/publicSecurityGroup
+      GroupName: public-security-group
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: Acceso al subnet publico
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      VpcId:
+        Ref: vpcfortigosports52282003
+    Metadata:
+      aws:cdk:path: InfraCdkStack/publicSecurityGroup/Resource
+  bastionidInstanceRoleB68B7191:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: instance-bastion
+    Metadata:
+      aws:cdk:path: InfraCdkStack/bastion-id/Resource/InstanceRole/Resource
+  bastionidInstanceRoleDefaultPolicy9C7C0461:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ssmmessages:*
+              - ssm:UpdateInstanceInformation
+              - ec2messages:*
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: bastionidInstanceRoleDefaultPolicy9C7C0461
+      Roles:
+        - Ref: bastionidInstanceRoleB68B7191
+    Metadata:
+      aws:cdk:path: InfraCdkStack/bastion-id/Resource/InstanceRole/DefaultPolicy/Resource
+  bastionidInstanceProfileCF4D6490:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: bastionidInstanceRoleB68B7191
+    Metadata:
+      aws:cdk:path: InfraCdkStack/bastion-id/Resource/InstanceProfile
+  bastionid504C2386:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: bastionidInstanceProfileCF4D6490
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t3.micro
+      KeyName: for-bastion
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - publicSecurityGroupB75ADFFE
+            - GroupId
+      SubnetId:
+        Ref: vpcfortigosportssubnetpublicSubnet1Subnet5B85BEF8
+      Tags:
+        - Key: Name
+          Value: instance-bastion
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - bastionidInstanceRoleDefaultPolicy9C7C0461
+      - bastionidInstanceRoleB68B7191
+    Metadata:
+      aws:cdk:path: InfraCdkStack/bastion-id/Resource/Resource
+  RoleForLambdaEDC43426:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/AmazonRDSFullAccess
+    Metadata:
+      aws:cdk:path: InfraCdkStack/RoleForLambda/Resource
+  rdsSecurityGroup7880CD68:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: InfraCdkStack/rdsSecurityGroup
+      GroupName: rds-security-group
+      SecurityGroupEgress:
+        - CidrIp: 255.255.255.255/32
+          Description: Disallow all traffic
+          FromPort: 252
+          IpProtocol: icmp
+          ToPort: 86
+      VpcId:
+        Ref: vpcfortigosports52282003
+    Metadata:
+      aws:cdk:path: InfraCdkStack/rdsSecurityGroup/Resource
+  rdsSecurityGroupfromInfraCdkStacklambdaSecurityGroup6A9079073306015AA4A2:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      Description: Acceso del lambda
+      FromPort: 3306
+      GroupId:
+        Fn::GetAtt:
+          - rdsSecurityGroup7880CD68
+          - GroupId
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - lambdaSecurityGroup2DB5E13D
+          - GroupId
+      ToPort: 3306
+    Metadata:
+      aws:cdk:path: InfraCdkStack/rdsSecurityGroup/from InfraCdkStacklambdaSecurityGroup6A907907:3306
+  rdsSecurityGroupfromInfraCdkStackpublicSecurityGroupFFE1194433068CDB73C9:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      Description: Acceso al rds desde subnet publico
+      FromPort: 3306
+      GroupId:
+        Fn::GetAtt:
+          - rdsSecurityGroup7880CD68
+          - GroupId
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - publicSecurityGroupB75ADFFE
+          - GroupId
+      ToPort: 3306
+    Metadata:
+      aws:cdk:path: InfraCdkStack/rdsSecurityGroup/from InfraCdkStackpublicSecurityGroupFFE11944:3306
+  lambdaSecurityGroup2DB5E13D:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: InfraCdkStack/lambdaSecurityGroup
+      GroupName: lambda-security-group
+      VpcId:
+        Ref: vpcfortigosports52282003
+    Metadata:
+      aws:cdk:path: InfraCdkStack/lambdaSecurityGroup/Resource
+  lambdaSecurityGrouptoInfraCdkStackrdsSecurityGroup365C17A833061F70ABEA:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId:
+        Fn::GetAtt:
+          - lambdaSecurityGroup2DB5E13D
+          - GroupId
+      IpProtocol: tcp
+      Description: Acceso al Rds
+      DestinationSecurityGroupId:
+        Fn::GetAtt:
+          - rdsSecurityGroup7880CD68
+          - GroupId
+      FromPort: 3306
+      ToPort: 3306
+    Metadata:
+      aws:cdk:path: InfraCdkStack/lambdaSecurityGroup/to InfraCdkStackrdsSecurityGroup365C17A8:3306
+  dbtigosportsSubnetGroup61987175:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet group for db-tigosports database
+      SubnetIds:
+        - Ref: vpcfortigosportssubnet1Subnet1SubnetE4FDC40A
+        - Ref: vpcfortigosportssubnet1Subnet2Subnet16BDA1A1
+    Metadata:
+      aws:cdk:path: InfraCdkStack/db-tigosports/SubnetGroup/Default
+  dbtigosportsC8339F6F:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: "100"
+      CopyTagsToSnapshot: true
+      DBInstanceIdentifier: dbsports
+      DBName: dbtest
+      DBSubnetGroupName:
+        Ref: dbtigosportsSubnetGroup61987175
+      Engine: mysql
+      EngineVersion: "5.7"
+      MasterUsername: dbuser
+      MasterUserPassword: "{{resolve:ssm-secure:/db/password:1}}"
+      MultiAZ: true
+      PubliclyAccessible: false
+      StorageEncrypted: true
+      StorageType: gp2
+      VPCSecurityGroups:
+        - Fn::GetAtt:
+            - rdsSecurityGroup7880CD68
+            - GroupId
+    UpdateReplacePolicy: Snapshot
+    DeletionPolicy: Snapshot
+    Metadata:
+      aws:cdk:path: InfraCdkStack/db-tigosports/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.88.0,@aws-cdk/assets=1.111.0,@aws-cdk/aws-applicationautoscaling=1.111.0,@aws-cdk/aws-autoscaling-common=1.111.0,@aws-cdk/aws-cloudwatch=1.111.0,@aws-cdk/aws-codeguruprofiler=1.111.0,@aws-cdk/aws-ec2=1.111.0,@aws-cdk/aws-ecr=1.111.0,@aws-cdk/aws-ecr-assets=1.111.0,@aws-cdk/aws-events=1.111.0,@aws-cdk/aws-iam=1.111.0,@aws-cdk/aws-kms=1.111.0,@aws-cdk/aws-lambda=1.111.0,@aws-cdk/aws-logs=1.111.0,@aws-cdk/aws-rds=1.111.0,@aws-cdk/aws-s3=1.111.0,@aws-cdk/aws-s3-assets=1.111.0,@aws-cdk/aws-sam=1.111.0,@aws-cdk/aws-secretsmanager=1.111.0,@aws-cdk/aws-sqs=1.111.0,@aws-cdk/aws-ssm=1.111.0,@aws-cdk/cloud-assembly-schema=1.111.0,@aws-cdk/core=1.111.0,@aws-cdk/cx-api=1.111.0,@aws-cdk/region-info=1.111.0,jsii-runtime=node.js/v12.18.2
+    Metadata:
+      aws:cdk:path: InfraCdkStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Outputs:
+  bastionidBastionHostId82080250:
+    Description: Instance ID of the bastion host. Use this to connect via SSM Session Manager
+    Value:
+      Ref: bastionid504C2386
+  dbEndpoint:
+    Value:
+      Fn::GetAtt:
+        - dbtigosportsC8339F6F
+        - Endpoint.Address
+Parameters:
+  SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+
