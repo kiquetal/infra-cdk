@@ -1,9 +1,19 @@
 import * as cdk from '@aws-cdk/core';
 import {SecretValue, Tags} from '@aws-cdk/core';
+import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
+import {
+  AmazonLinuxImage,
+  BastionHostLinux,
+  InstanceClass,
+  InstanceSize,
+  InstanceType,
+  Peer,
+  Port,
+  Subnet,
+  SubnetType
+} from '@aws-cdk/aws-ec2';
 import * as rds from '@aws-cdk/aws-rds';
-
-import {Port, Subnet, SubnetFilter, SubnetType, Vpc} from '@aws-cdk/aws-ec2';
 
 export class InfraCdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -17,8 +27,44 @@ export class InfraCdkStack extends cdk.Stack {
           subnetType: ec2.SubnetType.ISOLATED,
           name: 'subnet-1',
           cidrMask:24
+        },
+        {
+          subnetType: ec2.SubnetType.PUBLIC,
+          name:'subnet-public',
+          cidrMask:24
         }
       ]
+    });
+
+
+    const publicSecurityGroup = new ec2.SecurityGroup(this,'publicSecurityGroup',{
+      vpc:vpc,
+      securityGroupName:'public-security-group',
+      allowAllOutbound:true
+
+    });
+
+    const bastion = new BastionHostLinux(this,'bastion-id', {
+
+          vpc: vpc,
+          securityGroup: publicSecurityGroup,
+          instanceName: 'instance-bastion',
+          machineImage:new AmazonLinuxImage(),
+          instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MICRO),
+          subnetSelection: vpc.selectSubnets({subnetGroupName:'subnet-public'})
+        }
+    );
+
+    bastion.instance.instance.addPropertyOverride('KeyName', 'for-bastion');
+
+    const roleForLambda = new iam.Role(this,'RoleForLambda',{
+      managedPolicies:[
+          iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole'),
+          iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonRDSFullAccess')
+      ],
+      assumedBy:new iam.ServicePrincipal('lambda.amazonaws.com')
+
     });
 
     const rdsSecurityGroup = new ec2.SecurityGroup(this,'rdsSecurityGroup',
@@ -33,8 +79,6 @@ export class InfraCdkStack extends cdk.Stack {
       securityGroupName:'lambda-security-group',
       allowAllOutbound:false
     });
-
-
 
     const dbInstance = new rds.DatabaseInstance(this,'db-tigosports',{
       vpc:vpc,
@@ -58,8 +102,10 @@ export class InfraCdkStack extends cdk.Stack {
 
     });
 
+    publicSecurityGroup.addIngressRule(Peer.anyIpv4(),Port.tcp(22),'Acceso al subnet publico');
     lambdaSecurityGroup.addEgressRule(rdsSecurityGroup,Port.tcp(3306),'Acceso al Rds');
     rdsSecurityGroup.addIngressRule(lambdaSecurityGroup,Port.tcp(3306),'Acceso del lambda');
+    rdsSecurityGroup.addIngressRule(publicSecurityGroup,Port.tcp(3306),'Acceso al rds desde subnet publico');
     // @ts-ignore
     let allS = vpc.selectSubnets(ec2.SubnetType.ISOLATED).subnetIds;
     console.log(allS);
