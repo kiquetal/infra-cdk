@@ -24,6 +24,7 @@
     "@aws-cdk/aws-ec2": "^1.111.0",
     "@aws-cdk/aws-rds": "^1.111.0",
     "@aws-cdk/core": "1.88.0",
+    "date-fns": "^2.22.1",
     "source-map-support": "^0.5.16"
   }
 }

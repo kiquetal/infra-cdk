@@ -1,5 +1,5 @@
 import * as cdk from '@aws-cdk/core';
-import {SecretValue, Tags} from '@aws-cdk/core';
+import {SecretValue, Tag, Tags} from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import {
@@ -14,6 +14,8 @@ import {
   SubnetType
 } from '@aws-cdk/aws-ec2';
 import * as rds from '@aws-cdk/aws-rds';
+import { Utils } from './utils';
+
 
 export class InfraCdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -40,9 +42,12 @@ export class InfraCdkStack extends cdk.Stack {
     const publicSecurityGroup = new ec2.SecurityGroup(this,'publicSecurityGroup',{
       vpc:vpc,
       securityGroupName:'public-security-group',
-      allowAllOutbound:true
+      allowAllOutbound:true,
 
     });
+
+    //@ts-ignore
+    Utils.addTagToResource('Name','Security group for bastion',publicSecurityGroup);
 
     const bastion = new BastionHostLinux(this,'bastion-id', {
 
@@ -73,12 +78,17 @@ export class InfraCdkStack extends cdk.Stack {
           securityGroupName:'rds-security-group',
         allowAllOutbound:false
         });
+        //@ts-ignore
+        Utils.addTagToResource('Name','Security group for rds',rdsSecurityGroup);
 
     const lambdaSecurityGroup = new ec2.SecurityGroup(this,'lambdaSecurityGroup',{
       vpc:vpc,
       securityGroupName:'lambda-security-group',
       allowAllOutbound:false
     });
+
+    //@ts-ignore
+    Utils.addTagToResource('Name','Security group for lambda',lambdaSecurityGroup);
 
     const dbInstance = new rds.DatabaseInstance(this,'db-tigosports',{
       vpc:vpc,
@@ -119,7 +129,8 @@ export class InfraCdkStack extends cdk.Stack {
     });
 
     // @ts-ignore
-    Tags.of(vpc).add("creator","enrique.melgarejo@edge.com.py");
+
+
 
 
   }
