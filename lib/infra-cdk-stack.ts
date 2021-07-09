@@ -10,6 +10,7 @@ import {
   InstanceType,
   Peer,
   Port,
+  SecurityGroup,
   Subnet,
   SubnetType
 } from '@aws-cdk/aws-ec2';
@@ -37,16 +38,15 @@ export class InfraCdkStack extends cdk.Stack {
         }
       ]
     });
-
-
-    const publicSecurityGroup = new ec2.SecurityGroup(this,'publicSecurityGroup',{
+    const publicSecurityGroup:SecurityGroup = new ec2.SecurityGroup(this,'publicSecurityGroup',{
       vpc:vpc,
       securityGroupName:'public-security-group',
       allowAllOutbound:true,
 
     });
 
-    Utils.addTagToResource('Name','Security group for bastion',publicSecurityGroup as IConstruct);
+    //@ts-ignore
+    Utils.addTagToResource('Name','Security group for bastion',publicSecurityGroup);
 
     const bastion = new BastionHostLinux(this,'bastion-id', {
 
@@ -65,7 +65,8 @@ export class InfraCdkStack extends cdk.Stack {
       managedPolicies:[
           iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole'),
           iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
-          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonRDSFullAccess')
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonRDSFullAccess'),
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMReadOnlyAccess')
       ],
       assumedBy:new iam.ServicePrincipal('lambda.amazonaws.com')
 
@@ -77,6 +78,7 @@ export class InfraCdkStack extends cdk.Stack {
           securityGroupName:'rds-security-group',
         allowAllOutbound:false
         });
+
         //@ts-ignore
         Utils.addTagToResource('Name','Security group for rds',rdsSecurityGroup);
 
