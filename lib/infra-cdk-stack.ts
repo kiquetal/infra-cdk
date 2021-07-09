@@ -1,5 +1,5 @@
 import * as cdk from '@aws-cdk/core';
-import {SecretValue, Tag, Tags} from '@aws-cdk/core';
+import {IConstruct, SecretValue, Tag, Tags} from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import {
@@ -46,8 +46,7 @@ export class InfraCdkStack extends cdk.Stack {
 
     });
 
-    //@ts-ignore
-    Utils.addTagToResource('Name','Security group for bastion',publicSecurityGroup);
+    Utils.addTagToResource('Name','Security group for bastion',publicSecurityGroup as IConstruct);
 
     const bastion = new BastionHostLinux(this,'bastion-id', {
 
@@ -118,18 +117,13 @@ export class InfraCdkStack extends cdk.Stack {
     rdsSecurityGroup.addIngressRule(publicSecurityGroup,Port.tcp(3306),'Acceso al rds desde subnet publico');
     // @ts-ignore
     let allS = vpc.selectSubnets(ec2.SubnetType.ISOLATED).subnetIds;
-    console.log(allS);
     let m =Subnet.fromSubnetAttributes(this,'subnet',{
       subnetId:allS[0]
     })
-    console.log(m.subnetId);
 
     new cdk.CfnOutput(this, 'dbEndpoint', {
       value: dbInstance.instanceEndpoint.hostname,
     });
-
-    // @ts-ignore
-
 
 
 
