@@ -123,11 +123,34 @@ export class InfraCdkStack extends cdk.Stack {
       subnetId:allS[0]
     })
 
-    new cdk.CfnOutput(this, 'dbEndpoint', {
-      value: dbInstance.instanceEndpoint.hostname,
+
+    let interfaceSG = new ec2.SecurityGroup(this,'interface-endpoint-sg',{
+      securityGroupName:'interface-sg',
+      vpc:vpc,
+    });
+
+    let interfaceEndpoint = new ec2.InterfaceVpcEndpoint(this,'Iinterface-endpoint-ssm',{
+      service:ec2.InterfaceVpcEndpointAwsService.SSM,
+      vpc:vpc,
+      subnets:vpc.selectSubnets({subnetType:ec2.SubnetType.ISOLATED}),
+      securityGroups:[interfaceSG],
+      privateDnsEnabled:true
+    });
+    let interfaceEndpointKMS = new ec2.InterfaceVpcEndpoint(this,'Iinterface-endpoint-kms',{
+      service:ec2.InterfaceVpcEndpointAwsService.KMS,
+      vpc:vpc,
+      subnets:vpc.selectSubnets({subnetType:ec2.SubnetType.ISOLATED}),
+      securityGroups:[interfaceSG],
+      privateDnsEnabled:true
     });
 
 
+    interfaceSG.addIngressRule(lambdaSecurityGroup,ec2.Port.tcp(443),'allow 443 from lambda');
+    lambdaSecurityGroup.addEgressRule(interfaceSG,ec2.Port.tcp(443),'allow 443 outbound lambda');
+
+    new cdk.CfnOutput(this, 'dbEndpoint', {
+      value: dbInstance.instanceEndpoint.hostname,
+    });
 
   }
 
