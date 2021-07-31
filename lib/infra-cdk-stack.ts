@@ -127,8 +127,11 @@ export class InfraCdkStack extends cdk.Stack {
     let interfaceSG = new ec2.SecurityGroup(this,'interface-endpoint-sg',{
       securityGroupName:'interface-sg',
       vpc:vpc,
+      allowAllOutbound:false
     });
 
+    // @ts-ignore
+    Utils.addTagToResource('Name','Security group for instance gateway',interfaceSG);
     let interfaceEndpoint = new ec2.InterfaceVpcEndpoint(this,'Iinterface-endpoint-ssm',{
       service:ec2.InterfaceVpcEndpointAwsService.SSM,
       vpc:vpc,
@@ -143,6 +146,12 @@ export class InfraCdkStack extends cdk.Stack {
       securityGroups:[interfaceSG],
       privateDnsEnabled:true
     });
+
+
+    // @ts-ignore
+    Utils.addTagToResource('Name','Interface for endpoint KMS',interfaceEndpointKMS);
+    // @ts-ignore
+    Utils.addTagToResource('Name','Interface  for endpoint SSM',interfaceEndpoint);
 
 
     interfaceSG.addIngressRule(lambdaSecurityGroup,ec2.Port.tcp(443),'allow 443 from lambda');
