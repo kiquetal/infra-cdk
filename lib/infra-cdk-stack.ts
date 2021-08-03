@@ -28,7 +28,12 @@ export class InfraCdkStack extends cdk.Stack {
       subnetConfiguration:[
         {
           subnetType: ec2.SubnetType.ISOLATED,
-          name: 'subnet-1',
+          name: 'lambda-subnet',
+          cidrMask:24
+        },
+        {
+          subnetType: ec2.SubnetType.ISOLATED,
+          name: 'rds-subnet',
           cidrMask:24
         },
         {
@@ -94,7 +99,7 @@ export class InfraCdkStack extends cdk.Stack {
     const dbInstance = new rds.DatabaseInstance(this,'db-tigosports',{
       vpc:vpc,
       vpcSubnets:{
-        subnetType:ec2.SubnetType.ISOLATED
+      subnetGroupName:'rds-subnet'
       },
       instanceIdentifier:'dbsports',
       engine:rds.DatabaseInstanceEngine.mysql({
@@ -135,14 +140,14 @@ export class InfraCdkStack extends cdk.Stack {
     let interfaceEndpoint = new ec2.InterfaceVpcEndpoint(this,'Iinterface-endpoint-ssm',{
       service:ec2.InterfaceVpcEndpointAwsService.SSM,
       vpc:vpc,
-      subnets:vpc.selectSubnets({subnetType:ec2.SubnetType.ISOLATED}),
+      subnets:vpc.selectSubnets({subnetGroupName:'lambda-subnet'}),
       securityGroups:[interfaceSG],
       privateDnsEnabled:true
     });
     let interfaceEndpointKMS = new ec2.InterfaceVpcEndpoint(this,'Iinterface-endpoint-kms',{
       service:ec2.InterfaceVpcEndpointAwsService.KMS,
       vpc:vpc,
-      subnets:vpc.selectSubnets({subnetType:ec2.SubnetType.ISOLATED}),
+      subnets:vpc.selectSubnets({subnetGroupName:'lambda-subnet'}),
       securityGroups:[interfaceSG],
       privateDnsEnabled:true
     });
