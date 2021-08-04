@@ -118,6 +118,19 @@ export class InfraCdkStack extends cdk.Stack {
 
     });
 
+    let rdsFromSnapshot = new rds.DatabaseInstanceFromSnapshot(this,'fromSnap',{
+      engine:rds.DatabaseInstanceEngine.mysql({
+        version:rds.MysqlEngineVersion.VER_5_7
+      }),
+            snapshotIdentifier:"<arn>",
+      vpc:vpc,
+      vpcSubnets:{
+        subnetGroupName:'rds-subnet'
+      },
+      multiAz:true,
+      securityGroups:[rdsSecurityGroup]
+    });
+
     publicSecurityGroup.addIngressRule(Peer.anyIpv4(),Port.tcp(22),'Acceso al subnet publico');
     lambdaSecurityGroup.addEgressRule(rdsSecurityGroup,Port.tcp(3306),'Acceso al Rds');
     rdsSecurityGroup.addIngressRule(lambdaSecurityGroup,Port.tcp(3306),'Acceso del lambda');
@@ -165,7 +178,9 @@ export class InfraCdkStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'dbEndpoint', {
       value: dbInstance.instanceEndpoint.hostname,
     });
-
+     new cdk.CfnOutput(this, 'snapshotEndpoint', {
+       value:rdsFromSnapshot.instanceEndpoint.hostname
+    });
   }
 
 
