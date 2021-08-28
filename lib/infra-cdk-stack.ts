@@ -1,5 +1,5 @@
 import * as cdk from '@aws-cdk/core';
-import {IConstruct, SecretValue, Tag, Tags} from '@aws-cdk/core';
+import {SecretValue} from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import {
@@ -11,11 +11,11 @@ import {
   Peer,
   Port,
   SecurityGroup,
-  Subnet,
-  SubnetType
+  Subnet
 } from '@aws-cdk/aws-ec2';
 import * as rds from '@aws-cdk/aws-rds';
-import { Utils } from './utils';
+import {Utils} from './utils';
+import {DatabaseInstanceEngine, MysqlEngineVersion, OptionGroup} from "@aws-cdk/aws-rds";
 
 
 export class InfraCdkStack extends cdk.Stack {
@@ -96,37 +96,38 @@ export class InfraCdkStack extends cdk.Stack {
     //@ts-ignore
     Utils.addTagToResource('Name','Security group for lambda',lambdaSecurityGroup);
 
-    const dbInstance = new rds.DatabaseInstance(this,'db-tigosports',{
-      vpc:vpc,
-      vpcSubnets:{
-      subnetGroupName:'rds-subnet'
-      },
-      instanceIdentifier:'dbsports',
-      engine:rds.DatabaseInstanceEngine.mysql({
-        version:rds.MysqlEngineVersion.VER_5_7
-      }),
-      instanceType:ec2.InstanceType.of(
-          ec2.InstanceClass.BURSTABLE3,
-          ec2.InstanceSize.MICRO
-      ),
-      //@ts-ignore
-      credentials:rds.Credentials.fromPassword('dbuser',SecretValue.ssmSecure('/db/password',1)),
-      databaseName:'dbtest',
-      multiAz:true,
-      storageEncrypted:true,
-      securityGroups:[rdsSecurityGroup],
 
+    const optionGroupRDS = new rds.OptionGroup(this, 'option-grouptigo-sports', {
+      engine: DatabaseInstanceEngine.mysql({
+        version: MysqlEngineVersion.VER_5_7
+      }),
+      configurations:[]
+    });
+
+
+
+    let parameterGroupRDS = new rds.ParameterGroup(this,"parameter-group-tigosports",{
+      engine:DatabaseInstanceEngine.mysql({
+        version:MysqlEngineVersion.VER_5_7
+      })
     });
 
     let rdsFromSnapshot = new rds.DatabaseInstanceFromSnapshot(this,'fromSnap',{
       engine:rds.DatabaseInstanceEngine.mysql({
         version:rds.MysqlEngineVersion.VER_5_7
+
       }),
-            snapshotIdentifier:"<arn>",
+      instanceType:InstanceType.of(InstanceClass.M5, InstanceSize.LARGE),
+      instanceIdentifier:"tigosports-vpc",
+      optionGroup:optionGroupRDS,
+      parameterGroup:parameterGroupRDS,
+      snapshotIdentifier:"",
       vpc:vpc,
       vpcSubnets:{
         subnetGroupName:'rds-subnet'
       },
+
+      deletionProtection:true,
       multiAz:true,
       securityGroups:[rdsSecurityGroup]
     });
@@ -174,10 +175,11 @@ export class InfraCdkStack extends cdk.Stack {
 
     interfaceSG.addIngressRule(lambdaSecurityGroup,ec2.Port.tcp(443),'allow 443 from lambda');
     lambdaSecurityGroup.addEgressRule(interfaceSG,ec2.Port.tcp(443),'allow 443 outbound lambda');
-
+/*
     new cdk.CfnOutput(this, 'dbEndpoint', {
       value: dbInstance.instanceEndpoint.hostname,
     });
+  */
      new cdk.CfnOutput(this, 'snapshotEndpoint', {
        value:rdsFromSnapshot.instanceEndpoint.hostname
     });
