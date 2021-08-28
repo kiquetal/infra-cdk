@@ -1,14 +1,24 @@
-# Welcome to your CDK TypeScript project!
+### Simple vpc with subnet for lambda and rds
 
-This is a blank project for TypeScript development with CDK.
+#### The stack to be created resides in
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+[Infra-cdk.ts](./bin/infra-cdk.ts)
 
-## Useful commands
 
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+#### Prerequisites
+
+##### 
+   
+    A valid profile to be use with the following command in the root folder of the projects
+
+##### Usefull commands
+
+- cdk deploy --profile <aws_profile>
+
+##### Destroy
+
+- cdk destroy --profile <aws_profile>
+
+##### Output clouformation file
+
+- cdk synthesize
